@@ -44,7 +44,7 @@ jobs:
         container-registry-password: ${{ secrets.kodeyacr_e6445_password }}
         secret-name: ${{ env.SECRET_NAME  }}
        
-    - uses: azure/k8s-deploy@v1
+    - uses: azure/k8s-deploy@users/koushdey/fixAnnotateNamespace
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
