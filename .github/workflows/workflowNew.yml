@@ -1,3 +1,4 @@
+name: workflow 1
 on: [push]
 jobs:
   build-and-deploy:
