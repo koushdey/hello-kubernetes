@@ -35,6 +35,7 @@ jobs:
         then
             echo `kubectl create namespace $NAMESPACE`
         fi
+
     - uses: azure/k8s-create-secret@v1
       with:
         namespace: ${{ env.NAMESPACE  }}
@@ -50,6 +51,7 @@ jobs:
           manifests/deployment.yml
           manifests/service.yml
           
+
         images: |
           ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME  }}:${{ github.sha }}
         imagepullsecrets: |
