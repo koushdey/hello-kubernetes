@@ -43,7 +43,7 @@ jobs:
         container-registry-password: ${{ secrets.kodeyacr_e6445_password }}
         secret-name: ${{ env.SECRET_NAME  }}
        
-    - uses: azure/k8s-deploy@testKodey
+    - uses: azure/k8s-deploy@test1Kodey
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
