@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: kodeyaks
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kodeyaks
+  template:
+    metadata:
+      labels:
+        app: kodeyaks
+    spec:
+      containers:
+        - name: kodeyaks
+          image: kodeyacr.azurecr.io/kodeyaks
+          ports:
+          - containerPort: 80
