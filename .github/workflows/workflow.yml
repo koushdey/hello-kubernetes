@@ -35,7 +35,7 @@ jobs:
         then
             echo `kubectl create namespace $NAMESPACE`
         fi
-    - uses: azure/k8s-create-secret@v1123
+    - uses: azure/k8s-create-secret@v112
       with:
         namespace: ${{ env.NAMESPACE  }}
         container-registry-url: ${{ env.REGISTRY_URL }}
