@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: akskodey
+    name: aksriv03aks1
     labels:
-        app: akskodey
+        app: aksriv03aks1
 spec:
     type: LoadBalancer
     ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
     selector:
-        app: akskodey
+        app: aksriv03aks1

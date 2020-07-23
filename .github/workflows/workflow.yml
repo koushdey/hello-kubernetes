@@ -2,10 +2,10 @@ on: [push]
 jobs:
   build-and-deploy:
     env:
-      REGISTRY_URL: kodeyacr.azurecr.io
-      NAMESPACE: akskodey8187
-      IMAGE_NAME: akskodey
-      SECRET_NAME: akskodey
+      REGISTRY_URL: aksriv03acr2020.azurecr.io
+      NAMESPACE: aksriv03aks20206cfd
+      IMAGE_NAME: aksriv03aks2020
+      SECRET_NAME: aksriv03aks2dockerauth
 
     runs-on: ubuntu-latest
     steps:
