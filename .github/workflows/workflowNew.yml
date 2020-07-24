@@ -1,0 +1,56 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    env:
+      REGISTRY_URL: kodeyacr.azurecr.io
+      NAMESPACE: akskodey8187
+      IMAGE_NAME: akskodey
+      SECRET_NAME: akskodey
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY_URL }}
+        username: ${{ secrets.kodeyacr_e6445_username }} 
+        password: ${{ secrets.kodeyacr_e6445_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/app" -f  "./Dockerfile" -t  $REGISTRY_URL/$IMAGE_NAME:${{ github.sha }}
+        docker push $REGISTRY_URL/$IMAGE_NAME:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aksKodey_e6445 }} 
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep $NAMESPACE | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace $NAMESPACE`
+        fi
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: ${{ env.NAMESPACE  }}
+        container-registry-url: ${{ env.REGISTRY_URL }}
+        container-registry-username: ${{ secrets.kodeyacr_e6445_username }}
+        container-registry-password: ${{ secrets.kodeyacr_e6445_password }}
+        secret-name: ${{ env.SECRET_NAME  }}
+       
+    - uses: azure/k8s-deploy@users/koushdey/nestedAnnotations
+      with:
+        namespace: ${{ env.NAMESPACE  }}
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+          
+        images: |
+          ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME  }}:${{ github.sha }}
+        imagepullsecrets: |
+          ${{ env.SECRET_NAME  }}
