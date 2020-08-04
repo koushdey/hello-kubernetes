@@ -1,3 +1,4 @@
+name: workCI
 on: [push]
 jobs:
   build-and-deploy:
