@@ -1,4 +1,4 @@
-name: workCI
+name: workCII
 on: [push]
 jobs:
   build-and-deploy:
