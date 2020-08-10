@@ -1,4 +1,4 @@
-name: KodeyMaster
+name: KoDeYMaster
 on: [push]
 jobs:
   build-and-deploy:
