@@ -1,10 +1,10 @@
-name: KodeyMaster
+name: KoDeYMaster
 on: [push]
 jobs:
   build-and-deploy:
     env:
       REGISTRY_URL: kodeyacr.azurecr.io
-      NAMESPACE: akskodey8187
+      NAMESPACE: akskodey8180
       IMAGE_NAME: akskodey
       SECRET_NAME: akskodey
 
