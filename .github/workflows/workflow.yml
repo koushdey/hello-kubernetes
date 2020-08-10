@@ -1,4 +1,4 @@
-name: workCII
+name: KodeyMaster
 on: [push]
 jobs:
   build-and-deploy:
