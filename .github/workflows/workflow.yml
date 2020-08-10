@@ -1,3 +1,4 @@
+name: KoDeY2
 on: [push] 
 jobs:
   build-and-deploy:
@@ -43,7 +44,7 @@ jobs:
         container-registry-password: ${{ secrets.kodeyacr_e6445_password }}
         secret-name: ${{ env.SECRET_NAME  }}
        
-    - uses: azure/k8s-deploy@users/koushdey/1nestedAnnotations
+    - uses: azure/k8s-deploy@users/koushdey/nestedAnnotations
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
