@@ -5,7 +5,6 @@ This container image can be deployed on a Kubernetes cluster. When accessed via 
 - the pod name
 - node os information
 
-dummy commit
 
 ![Hello world! from the hello-kubernetes image](hello-kubernetes.png)
 
