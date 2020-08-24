@@ -3,7 +3,7 @@ jobs:
   build-and-deploy:
     env:
       REGISTRY_URL: akskodeyacr.azurecr.io
-      NAMESPACE: akskodey8180
+      NAMESPACE: akskodey8190
       IMAGE_NAME: akskodey
       SECRET_NAME: akskodey
 
