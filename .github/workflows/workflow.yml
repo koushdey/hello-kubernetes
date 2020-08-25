@@ -1,4 +1,4 @@
-name: .Ko-Dey_work
+name: Ko-Dey_wor.k
 on: [push]
 jobs:
   build-and-deploy:
