@@ -1,3 +1,4 @@
+name: Kodey
 on: [push]
 jobs:
   build-and-deploy:
