@@ -25,7 +25,7 @@ jobs:
             echo `kubectl create namespace $NAMESPACE`
         fi
        
-    - uses: azure/k8s-deploy@users/koushdey/workflow-Annotations
+    - uses: azure/k8s-deploy@users/koushdey/workflowAnnotations
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
