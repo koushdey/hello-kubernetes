@@ -1,3 +1,4 @@
+name: NewNameForDeployToAKSCluster
 on: [push]
 jobs:
   build-and-deploy:
