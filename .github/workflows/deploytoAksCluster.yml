@@ -4,7 +4,7 @@ jobs:
   build-and-deploy:
     env:
       REGISTRY_URL: akskodeyacr.azurecr.io
-      NAMESPACE: pulkit-demo
+      NAMESPACE: akskodey8190
       IMAGE_NAME: akskodey
       SECRET_NAME: akskodey
 
@@ -25,7 +25,7 @@ jobs:
             echo `kubectl create namespace $NAMESPACE`
         fi
        
-    - uses: azure/k8s-deploy@v1.2
+    - uses: azure/k8s-deploy@-v1.2
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
