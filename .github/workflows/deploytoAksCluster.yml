@@ -24,7 +24,7 @@ jobs:
             echo `kubectl create namespace $NAMESPACE`
         fi
        
-    - uses: azure/k8s-deploy@v1.2 
+    - uses: azure/k8s-deploy@v1.2
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
