@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: kodeypetestacr.azurecr.io
+        username: ${{ secrets.acr_kodeypetestacr_username }}
+        password: ${{ secrets.acr_kodeypetestacr_password }}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/.devcontainer" -f  ".devcontainer/Dockerfile" -t kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
+        docker push kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{ secrets.aks_kodeypetest_kubeConfig }}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep kodeypetest99e1 | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace kodeypetest99e1`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: kodeypetest99e1
+        container-registry-url: kodeypetestacr.azurecr.io
+        container-registry-username: ${{ secrets.acr_kodeypetestacr_username }}
+        container-registry-password: ${{ secrets.acr_kodeypetestacr_password }}
+        secret-name: kodeypetestdockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: kodeypetest99e1
+        manifests: |
+          manifests/deployment.yml
+          manifests/service.yml
+        images: |
+          kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
+        imagepullsecrets: |
+          kodeypetestdockerauth
