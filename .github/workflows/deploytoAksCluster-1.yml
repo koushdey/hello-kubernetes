@@ -3,24 +3,17 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    
     - uses: actions/checkout@master
     
-    - uses: azure/docker-login@v1
+    - uses: azure/login@v1
       with:
-        login-server: kodeypetestacr.azurecr.io
-        username: ${{ secrets.acr_kodeypetestacr_username }}
-        password: ${{ secrets.acr_kodeypetestacr_password }}
-    
-    - name: Build and push image to ACR
-      id: build-image
-      run: |
-        docker build "$GITHUB_WORKSPACE/.devcontainer" -f  ".devcontainer/Dockerfile" -t kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
-        docker push kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     
     - uses: azure/k8s-set-context@v1
+      id: login
       with:
          kubeconfig: ${{ secrets.aks_kodeypetest_kubeConfig }}
-      id: login
     
     - name: Create namespace
       run: |
@@ -33,18 +26,15 @@ jobs:
     - uses: azure/k8s-create-secret@v1
       with:
         namespace: kodeypetest961f
-        container-registry-url: kodeypetestacr.azurecr.io
-        container-registry-username: ${{ secrets.acr_kodeypetestacr_username }}
-        container-registry-password: ${{ secrets.acr_kodeypetestacr_password }}
+        container-registry-url: kodeypetest1.azurecr.io
+        container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
+        container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
         secret-name: kodeypetestdockerauth
        
     - uses: azure/k8s-deploy@v1.2
       with:
         namespace: kodeypetest961f
         manifests: |
-          manifests/deployment.yml
-          manifests/service.yml
-        images: |
-          kodeypetestacr.azurecr.io/kodeypetest:${{ github.sha }}
-        imagepullsecrets: |
-          kodeypetestdockerauth
+          manifests/deployment-1.yml
+          manifests/service-1.yml
+        images: nginx
