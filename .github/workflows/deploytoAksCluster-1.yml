@@ -23,13 +23,7 @@ jobs:
             echo `kubectl create namespace kodeypetest961f`
         fi
 
-    - uses: azure/k8s-create-secret@v1
-      with:
-        namespace: kodeypetest961f
-        container-registry-url: kodeypetest1.azurecr.io
-        container-registry-username: ${{ steps.create-acr.outputs.acr_username }}
-        container-registry-password: ${{ steps.create-acr.outputs.acr_password }}
-        secret-name: kodeypetestdockerauth
+
        
     - uses: azure/k8s-deploy@v1.2
       with:
