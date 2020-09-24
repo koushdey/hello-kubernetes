@@ -13,16 +13,16 @@ jobs:
     
     - name: Create namespace
       run: |
-        namespacePresent=`kubectl get namespace | grep kodeypetest99e1 | wc -l`
+        namespacePresent=`kubectl get namespace | grep kodeypetest961f | wc -l`
         if [ $namespacePresent -eq 0 ]
         then
-            echo `kubectl create namespace kodeypetest99e1`
+            echo `kubectl create namespace kodeypetest961f`
         fi
 
        
     - uses: azure/k8s-deploy@v1.2
       with:
-        namespace: kodeypetest99e1
+        namespace: kodeypetest961f
         manifests: |
           manifests/deployment.yml
           manifests/service.yml
