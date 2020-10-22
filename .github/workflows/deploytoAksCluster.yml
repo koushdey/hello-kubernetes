@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     
-    - uses: azure/k8s-set-context@v1
+    - uses: azure/k8s-set-context@users/koushdey/setEnvVarSpike
       with:
          kubeconfig: ${{ secrets.aksKodey_7582a }} 
       id: login
@@ -24,7 +24,7 @@ jobs:
             echo `kubectl create namespace $NAMESPACE`
         fi
        
-    - uses: azure/k8s-deploy@releases/v1.3
+    - uses: azure/k8s-deploy@users/koushdey/spikeEnvVar
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
