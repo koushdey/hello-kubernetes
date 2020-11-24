@@ -24,7 +24,7 @@ jobs:
             echo `kubectl create namespace $NAMESPACE`
         fi
        
-    - uses: azure/k8s-deploy@users/koushdey/spikeEnvVar
+    - uses: azure/k8s-deploy@users/jysin/ConfigFilePathsAddition
       with:
         namespace: ${{ env.NAMESPACE  }}
         manifests: |
