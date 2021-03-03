@@ -1,0 +1,50 @@
+on: [push]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: akskodeyacr.azurecr.io
+        username: ${{secrets.acr_akskodeyacr_username}}
+        password: ${{secrets.acr_akskodeyacr_password}}
+    
+    - name: Build and push image to ACR
+      id: build-image
+      run: |
+        docker build "$GITHUB_WORKSPACE/.devcontainer" -f  ".devcontainer/Dockerfile" -t akskodeyacr.azurecr.io/traceabilitykodey827b:${{ github.sha }}
+        docker push akskodeyacr.azurecr.io/traceabilitykodey827b:${{ github.sha }}
+    
+    - uses: azure/k8s-set-context@v1
+      with:
+         kubeconfig: ${{secrets.aks_traceabilitykodey_kubeConfig}}
+      id: login
+    
+    - name: Create namespace
+      run: |
+        namespacePresent=`kubectl get namespace | grep traceabilitykodey827b | wc -l`
+        if [ $namespacePresent -eq 0 ]
+        then
+            echo `kubectl create namespace traceabilitykodey827b`
+        fi
+
+    - uses: azure/k8s-create-secret@v1
+      with:
+        namespace: traceabilitykodey827b
+        container-registry-url: akskodeyacr.azurecr.io
+        container-registry-username: ${{secrets.acr_akskodeyacr_username}}
+        container-registry-password: ${{secrets.acr_akskodeyacr_password}}
+        secret-name: traceabilitydockerauth
+       
+    - uses: azure/k8s-deploy@v1.2
+      with:
+        namespace: traceabilitykodey827b
+        manifests: |
+          .devcontainer/manifests/deployment-827b.yml
+          .devcontainer/manifests/service-827b.yml
+        images: |
+          nginx
+        imagepullsecrets: |
+          traceabilitydockerauth

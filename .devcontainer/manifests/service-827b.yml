@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: "traceabilitykodey-827b"
+    labels:
+        app: "traceabilitykodey-827b"
+spec:
+    type: LoadBalancer
+    ports:
+    - port: 8081
+      targetPort: 8081
+      protocol: TCP
+      name: http
+    selector:
+        app: "traceabilitykodey-827b"

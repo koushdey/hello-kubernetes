@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: "traceabilitykodey-827b"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: "traceabilitykodey-827b"
+  template:
+    metadata:
+      labels:
+        app: "traceabilitykodey-827b"
+    spec:
+      containers:
+        - name: "traceabilitykodey-827b"
+          image: "nginx"
+          ports:
+          - containerPort: 8081
